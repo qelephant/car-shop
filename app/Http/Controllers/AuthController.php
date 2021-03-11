@@ -69,7 +69,6 @@ class AuthController extends Controller
     }
 
     public function user(Request $request){
-        dd('test');
         return response()->json($request->user());
     }
 }

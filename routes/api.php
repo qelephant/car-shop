@@ -20,12 +20,18 @@ use App\Http\Controllers\BodyController;
 //     return $request->user();
 // });
 
-    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::apiResources([
+        'body' => 'App\Http\Controllers\BodyController',
+        'city' => 'App\Http\Controllers\CityController',
+        'drive' => 'App\Http\Controllers\DriveController',
+        'transmission' => 'App\Http\Controllers\TransmissionController',
+        'wheel' => 'App\Http\Controllers\WheelController',
+    ]);
 
-
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/user', [AuthController::class, 'user']);
         Route::post('/get', [BodyController::class, 'index']);
     });
