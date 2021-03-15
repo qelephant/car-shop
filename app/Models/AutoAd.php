@@ -10,7 +10,7 @@ use App\Models\Transmission;
 use App\Models\Wheel;
 use App\Models\Drive;
 
-class CarAd extends Model
+class AutoAd extends Model
 {
     use HasFactory;
 

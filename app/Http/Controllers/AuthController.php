@@ -28,6 +28,10 @@ class AuthController extends Controller
 
         $user->save();
 
+        if($user->name == 'admin'){
+            $user->assignRole('super-admin');
+        }
+
         return response()->json([
             'message' => 'Successfully created user!'
         ], 201);
@@ -46,12 +50,16 @@ class AuthController extends Controller
             ], 401);
 
         $user = $request->user();
+        $roles = $user->roles()->pluck('name');
+        //$user->getRoleNames()
         $tokenResult = $user->createToken('car-shop');
         $token = $tokenResult->token;
         // if ($request->remember_me)
         $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
         return response()->json([
+            'user' => $user,
+            'user_role' => $roles,
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
@@ -69,6 +77,9 @@ class AuthController extends Controller
     }
 
     public function user(Request $request){
-        return response()->json($request->user());
+        return response()->json([
+                'user' => $request->user(),
+                'user_role' => $request->user()->roles()->pluck('name')
+            ]);
     }
 }

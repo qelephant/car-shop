@@ -10,7 +10,7 @@ class TransmissionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['index','show']);
+        $this->middleware(['auth:api', 'permission:manage directories'])->except(['index','show']);
     }
     /**
      * Display a listing of the resource.
@@ -31,6 +31,10 @@ class TransmissionController extends Controller
      */
     public function store(Request $request)
     {
+        if(!$request->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255'
         ]);
@@ -68,6 +72,10 @@ class TransmissionController extends Controller
      */
     public function update(Request $request, Transmission $transmission)
     {
+        if(!$request->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255'
         ]);
@@ -93,6 +101,10 @@ class TransmissionController extends Controller
      */
     public function destroy(Transmission $transmission)
     {
+        if(!$transmission->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
+
         $transmission->delete();
 
         return response(['message' => 'Deleted'], 200);

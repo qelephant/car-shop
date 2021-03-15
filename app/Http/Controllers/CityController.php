@@ -10,7 +10,7 @@ class CityController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['index','show']);
+        $this->middleware(['auth:api', 'permission:manage directories'])->except(['index','show']);
     }
     /**
      * Display a listing of the resource.
@@ -31,6 +31,9 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
+        if(!$request->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'activity' => 'required|numeric',
@@ -71,6 +74,9 @@ class CityController extends Controller
      */
     public function update(Request $request, City $city)
     {
+        if(!$request->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'activity' => 'required|numeric',
@@ -99,6 +105,9 @@ class CityController extends Controller
      */
     public function destroy(City $city)
     {
+        if(!$city->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
         $city->delete();
 
         return response(['message' => 'Deleted'], 200);

@@ -23,6 +23,7 @@ use App\Http\Controllers\BodyController;
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::apiResources([
+        'auto-ads' => 'App\Http\Controllers\AutoAdsController',
         'body' => 'App\Http\Controllers\BodyController',
         'city' => 'App\Http\Controllers\CityController',
         'drive' => 'App\Http\Controllers\DriveController',

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             DriveSeeder::class,
             TransmissionSeeder::class,
             WheelSeeder::class,
+            RoleSeeder::class,
         ]);
 
 

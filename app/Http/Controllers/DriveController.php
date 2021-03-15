@@ -11,7 +11,7 @@ class DriveController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['index','show']);
+        $this->middleware(['auth:api', 'permission:manage directories'])->except(['index','show']);
     }
 
     /**
@@ -33,6 +33,7 @@ class DriveController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255'
         ]);
@@ -70,6 +71,10 @@ class DriveController extends Controller
      */
     public function update(Request $request, Drive $drive)
     {
+        if(!$request->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255'
         ]);

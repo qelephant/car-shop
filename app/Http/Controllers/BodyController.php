@@ -11,7 +11,7 @@ class BodyController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['index','show']);
+        $this->middleware(['auth:api', 'permission:manage directories'])->except(['index','show']);
     }
 
     /**
@@ -33,6 +33,9 @@ class BodyController extends Controller
      */
     public function store(Request $request)
     {
+        if(!$request->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255'
         ]);
@@ -70,6 +73,10 @@ class BodyController extends Controller
      */
     public function update(Request $request, Body $body)
     {
+        if(!$request->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255'
         ]);
@@ -93,8 +100,13 @@ class BodyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Body $body)
+    public function destroy(Request $request, Body $body)
     {
+        dd($body);
+        if(!$request->user()->hasPermission('manage directories')){
+            return response()->json('You dont have permission!');
+        }
+
         $body->delete();
 
         return response(['message' => 'Deleted'], 200);
