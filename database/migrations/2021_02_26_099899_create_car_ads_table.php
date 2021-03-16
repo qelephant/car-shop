@@ -20,7 +20,7 @@ class CreateCarAdsTable extends Migration
             $table->integer('price');
             $table->string('color');
             $table->longText('description');
-            $table->integer('views');
+            $table->integer('views')->nullable();
             $table->integer('engine_volumne');
             $table->unsignedBigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities')

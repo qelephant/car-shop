@@ -33,7 +33,7 @@ class BodyController extends Controller
      */
     public function store(Request $request)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
         $validator = Validator::make($request->all(), [
@@ -73,7 +73,7 @@ class BodyController extends Controller
      */
     public function update(Request $request, Body $body)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 
@@ -102,8 +102,7 @@ class BodyController extends Controller
      */
     public function destroy(Request $request, Body $body)
     {
-        dd($body);
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 

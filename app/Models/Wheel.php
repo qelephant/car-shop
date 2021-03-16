@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CarAd;
+use App\Models\AutoAd;
 
 class Wheel extends Model
 {
     use HasFactory;
 
-    public function carAds()
+    public function autoads()
     {
-        $this->hasMany(CarAd::class);
+        return $this->hasMany(AutoAd::class);
     }
 }

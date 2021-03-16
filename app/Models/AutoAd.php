@@ -14,28 +14,49 @@ class AutoAd extends Model
 {
     use HasFactory;
 
+    /**
+    * The table associated with the model.
+    *
+    * @var string
+    */
+
+    protected $table = 'car_ads';
+
+    // protected $fillable = [
+    //     'name',
+    //     'price',
+    //     'color',
+    //     'description',
+    //     'engine_volumne',
+    //     // 'city_id',
+    //     // 'body_id',
+    //     // 'transmission_id',
+    //     // 'wheel_id',
+    //     // 'drive_id'
+    // ];
+
     public function city()
     {
-        $this->belongsTo(City::class);
+        return $this->belongsTo(City::class);
     }
 
     public function body()
     {
-        $this->belongsTo(Body::class);
+        return $this->belongsTo(Body::class);
     }
 
     public function transmission()
     {
-        $this->belongsTo(Transmission::class);
+        return $this->belongsTo(Transmission::class);
     }
 
     public function wheel()
     {
-        $this->belongsTo(Wheel::class);
+        return $this->belongsTo(Wheel::class);
     }
 
     public function drive()
     {
-        $this->belongsTo(Drive::class);
+        return $this->belongsTo(Drive::class);
     }
 }

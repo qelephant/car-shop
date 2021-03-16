@@ -31,7 +31,7 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
         $validator = Validator::make($request->all(), [
@@ -74,7 +74,7 @@ class CityController extends Controller
      */
     public function update(Request $request, City $city)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
         $validator = Validator::make($request->all(), [

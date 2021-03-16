@@ -34,6 +34,6 @@ class Body extends Model
 
     public function carAds()
     {
-        $this->hasMany(CarAd::class);
+        return $this->hasMany(CarAd::class);
     }
 }

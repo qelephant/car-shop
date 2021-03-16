@@ -31,7 +31,7 @@ class WheelController extends Controller
      */
     public function store(Request $request)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 
@@ -72,7 +72,7 @@ class WheelController extends Controller
      */
     public function update(Request $request, Wheel $wheel)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 
@@ -101,7 +101,7 @@ class WheelController extends Controller
      */
     public function destroy(Wheel $wheel)
     {
-        if(!$wheel->user()->hasPermission('manage directories')){
+        if(!$wheel->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 

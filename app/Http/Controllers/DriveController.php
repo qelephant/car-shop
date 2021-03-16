@@ -71,7 +71,7 @@ class DriveController extends Controller
      */
     public function update(Request $request, Drive $drive)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 

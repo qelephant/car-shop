@@ -31,7 +31,7 @@ class TransmissionController extends Controller
      */
     public function store(Request $request)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 
@@ -72,7 +72,7 @@ class TransmissionController extends Controller
      */
     public function update(Request $request, Transmission $transmission)
     {
-        if(!$request->user()->hasPermission('manage directories')){
+        if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 
@@ -101,7 +101,7 @@ class TransmissionController extends Controller
      */
     public function destroy(Transmission $transmission)
     {
-        if(!$transmission->user()->hasPermission('manage directories')){
+        if(!$transmission->user()->can('manage directories')){
             return response()->json('You dont have permission!');
         }
 
