@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateOnlyNameValidationRequest;
 use App\Models\Drive;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class DriveController extends Controller
 {
@@ -31,17 +31,8 @@ class DriveController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateOnlyNameValidationRequest $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
-        }
-
         $data = Drive::create($request->all());
 
         return response([
@@ -69,18 +60,10 @@ class DriveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Drive $drive)
+    public function update(CreateOnlyNameValidationRequest $request, Drive $drive)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $drive->update($request->all());

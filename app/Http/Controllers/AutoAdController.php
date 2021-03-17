@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateAutoAdRequest;
 use App\Models\AutoAd;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class AutoAdController extends Controller
 {
@@ -31,41 +32,11 @@ class AutoAdController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateAutoAdRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'price' => 'required|integer|max::20',
-            'color' => 'required|string',
-            'description' => 'required|string|max:255',
-            'engine_volumne' => 'required|numeric|between:0,10',
-            'city_id' => 'required|integer|exists:cities,id',
-            'body_id' => 'required|integer|exists:bodies,id',
-            'transmission_id' => 'required|integer|exists:transmissions,id',
-            'wheel_id' => 'required|integer|exists:wheels,id',
-            'drive_id' => 'required|integer|exists:drives,id'
-        ]);
+        $data = AutoAd::create($request->all());
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
-        }
-
-        $data = new AutoAd();
-        $data['name'] = $request['name'];
-        $data['price'] = $request['price'];
-        $data['color'] = $request['color'];
-        $data['description'] = $request['description'];
-        $data['engine_volumne'] = $request['engine_volumne'];
-        $data['city_id'] = $data->city()->attach($request->city_id);
-        $data['body_id'] = $data->body()->attach($request->body_id);
-        $data['transmission_id'] = $data->transmission()->attach($request->transmission_id);
-        $data['wheel_id'] = $data->wheel()->attach($request->wheel_id);
-        $data['drive_id'] = $data->drive()->attach($request->drive_id);
-
-        $data->save();
-
-        //$data = AutoAd::create($request->all());
-        return response([
+        return response()->json([
             'item' => $data,
             'message' => 'Item Created Succesfully!'
             ],  201
@@ -80,7 +51,8 @@ class AutoAdController extends Controller
      */
     public function show($id)
     {
-        //
+        $autoad = AutoAd::where('id', $id)->first();
+        return response()->json($autoad, 200);
     }
 
     /**
@@ -90,9 +62,16 @@ class AutoAdController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateAutoAdRequest $request, $id)
     {
-        //
+        $autoad = AutoAd::where('id', $id)->first();
+        $autoad->update($request->all());
+
+        return response([
+            'item' => $autoad,
+            'message' => 'Item Updated Succesfully!'
+            ], 200
+        );
     }
 
     /**
@@ -103,6 +82,9 @@ class AutoAdController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $autoad = AutoAd::where('id', $id)->first()->delete();
+
+        return response(['message' => 'Item Succesfully Deleted'], 200);
+
     }
 }

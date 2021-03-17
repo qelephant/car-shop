@@ -6,7 +6,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CarAd;
+use App\Models\AutoAd;
 
 class Drive extends Model
 {
@@ -14,9 +14,9 @@ class Drive extends Model
 
     protected $fillable = ['name'];
 
-    public function carAds()
+    public function autoads()
     {
-        return $this->hasMany(CarAd::class);
+        return $this->hasMany(AutoAd::class);
     }
 
     /**

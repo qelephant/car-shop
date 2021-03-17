@@ -7,7 +7,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CarAd;
+use App\Models\AutoAd;
 
 class Body extends Model
 {
@@ -32,7 +32,7 @@ class Body extends Model
             ->saveSlugsTo('slug');
     }
 
-    public function carAds()
+    public function autoads()
     {
         return $this->hasMany(CarAd::class);
     }

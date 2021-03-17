@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateCityRequest;
 use App\Models\City;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CityController extends Controller
 {
@@ -29,20 +29,10 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCityRequest $request)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'activity' => 'required|numeric',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $data = City::create($request->all());
@@ -72,20 +62,10 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, City $city)
+    public function update(CreateCityRequest $request, City $city)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'activity' => 'required|numeric',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $city->update($request->all());

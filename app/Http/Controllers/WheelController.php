@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateOnlyNameValidationRequest;
 use App\Models\Wheel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class WheelController extends Controller
 {
@@ -29,18 +29,10 @@ class WheelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateOnlyNameValidationRequest $request)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $data = Wheel::create($request->all());
@@ -70,18 +62,10 @@ class WheelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Wheel $wheel)
+    public function update(CreateOnlyNameValidationRequest $request, Wheel $wheel)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $wheel->update($request->all());

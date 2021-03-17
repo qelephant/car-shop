@@ -22,18 +22,18 @@ class AutoAd extends Model
 
     protected $table = 'car_ads';
 
-    // protected $fillable = [
-    //     'name',
-    //     'price',
-    //     'color',
-    //     'description',
-    //     'engine_volumne',
-    //     // 'city_id',
-    //     // 'body_id',
-    //     // 'transmission_id',
-    //     // 'wheel_id',
-    //     // 'drive_id'
-    // ];
+    protected $fillable = [
+        'name',
+        'price',
+        'color',
+        'description',
+        'engine_volumne',
+        'city_id',
+        'body_id',
+        'transmission_id',
+        'wheel_id',
+        'drive_id'
+    ];
 
     public function city()
     {

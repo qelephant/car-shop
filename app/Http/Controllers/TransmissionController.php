@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateOnlyNameValidationRequest;
 use App\Models\Transmission;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class TransmissionController extends Controller
 {
@@ -29,18 +29,10 @@ class TransmissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateOnlyNameValidationRequest $request)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $data = Transmission::create($request->all());
@@ -70,18 +62,10 @@ class TransmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Transmission $transmission)
+    public function update(CreateOnlyNameValidationRequest $request, Transmission $transmission)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $transmission->update($request->all());

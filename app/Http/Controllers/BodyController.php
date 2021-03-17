@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateOnlyNameValidationRequest;
 use Illuminate\Http\Request;
 use App\Models\Body;
-use Illuminate\Support\Facades\Validator;
 
 class BodyController extends Controller
 {
@@ -31,17 +31,10 @@ class BodyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateOnlyNameValidationRequest $request)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $data = Body::create($request->all());
@@ -71,18 +64,10 @@ class BodyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Body $body)
+    public function update(CreateOnlyNameValidationRequest $request, Body $body)
     {
         if(!$request->user()->can('manage directories')){
             return response()->json('You dont have permission!');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
         }
 
         $body->update($request->all());
