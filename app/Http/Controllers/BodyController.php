@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateOnlyNameValidationRequest;
+use App\Http\Resources\BodyResource;
 use Illuminate\Http\Request;
 use App\Models\Body;
 
@@ -21,8 +22,8 @@ class BodyController extends Controller
      */
     public function index()
     {
-        $data = Body::all();
-        return response()->json($data);
+
+        return BodyResource::collection(Body::all());
     }
 
     /**
@@ -37,10 +38,10 @@ class BodyController extends Controller
             return response()->json('You dont have permission!');
         }
 
-        $data = Body::create($request->all());
-
+        $body = Body::create($request->all());
+        $body = new BodyResource($body);
         return response([
-            'item' => $data,
+            'item' => $body,
             'message' => 'Item Created Succesfully!'
             ],  201
         );
@@ -54,7 +55,9 @@ class BodyController extends Controller
      */
     public function show(Body $body)
     {
-        return response()->json(['body' => $body], 200);
+        $body = new BodyResource($body);
+
+        return response()->json($body, 200);
     }
 
     /**
@@ -71,7 +74,7 @@ class BodyController extends Controller
         }
 
         $body->update($request->all());
-
+        $body = new BodyResource($body);
         return response([
             'item' => $body,
             'message' => 'Item Created Succesfully!'
@@ -93,6 +96,6 @@ class BodyController extends Controller
 
         $body->delete();
 
-        return response(['message' => 'Deleted'], 200);
+        return response(['message' => 'Deleted'], 204);
     }
 }

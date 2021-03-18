@@ -90,6 +90,6 @@ class CityController extends Controller
         }
         $city->delete();
 
-        return response(['message' => 'Deleted'], 200);
+        return response(['message' => 'Deleted'], 204);
     }
 }

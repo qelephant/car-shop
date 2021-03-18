@@ -22,6 +22,13 @@ use App\Http\Controllers\BodyController;
 
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/user', [AuthController::class, 'user']);
+        Route::post('/get', [BodyController::class, 'index']);
+    });
+
     Route::apiResources([
         'auto' => 'App\Http\Controllers\AutoAdController',
         'body' => 'App\Http\Controllers\BodyController',
@@ -31,8 +38,4 @@ use App\Http\Controllers\BodyController;
         'wheel' => 'App\Http\Controllers\WheelController',
     ]);
 
-    Route::middleware('auth:api')->group(function () {
-        Route::post('/logout', [AuthController::class, 'logout']);
-        Route::post('/user', [AuthController::class, 'user']);
-        Route::post('/get', [BodyController::class, 'index']);
-    });
+

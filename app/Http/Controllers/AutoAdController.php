@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateAutoAdRequest;
 use App\Models\AutoAd;
-use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
 class AutoAdController extends Controller
@@ -84,7 +83,7 @@ class AutoAdController extends Controller
     {
         $autoad = AutoAd::where('id', $id)->first()->delete();
 
-        return response(['message' => 'Item Succesfully Deleted'], 200);
+        return response(['message' => 'Item Succesfully Deleted'], 204);
 
     }
 }

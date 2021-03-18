@@ -91,6 +91,6 @@ class WheelController extends Controller
 
         $wheel->delete();
 
-        return response(['message' => 'Deleted'], 200);
+        return response(['message' => 'Deleted'], 204);
     }
 }

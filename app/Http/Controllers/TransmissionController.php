@@ -91,6 +91,6 @@ class TransmissionController extends Controller
 
         $transmission->delete();
 
-        return response(['message' => 'Deleted'], 200);
+        return response(['message' => 'Deleted'], 204);
     }
 }

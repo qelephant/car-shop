@@ -35,6 +35,17 @@ class AutoAd extends Model
         'drive_id'
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'views',
+        'created_at',
+        'updated_at',
+    ];
+
     public function city()
     {
         return $this->belongsTo(City::class);
